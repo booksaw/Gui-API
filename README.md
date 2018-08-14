@@ -1,19 +1,19 @@
 # Gui-API
 
-This API is used to create GUIs quickly in minecraft, spigot. 
+This API is used to create GUIs quickly in Minecraft, spigot. 
 
 ## Getting Started
 
-Download GUI-API from spigot: and install on a minecraft 1.12 server.
+Download GUI-API from spigot: and install on a Minecraft 1.12 server.
 Next you can start coding with it by building a path to the jar file, just like you do with spigot-(version).jar
 
 ### Prerequisites
 
 Only requirements are spigot, tested versions include: 1.12.
 
-### Creating a Gui
+### Creating a GUI
 
-#### The Gui class
+#### The GUI class
 
 Extend the GUI class
 
@@ -30,7 +30,7 @@ public class foo extends GUI {
 
 	@Override
 	protected String getReference() {
-		/* The unique reference used for backend processing. It is recommened that this is the package 
+		/* The unique reference used for backend processing. It is recommended that this is the package 
         and class that extends GUI so it is unique. */
 		return "com.booksaw.guiExample.Foo";
 	}
@@ -39,14 +39,14 @@ public class foo extends GUI {
 	protected void initialise(ItemCollection items) {
 		/* Use the ItemCollection to add items which do not change per player,
         This is also a good time to setup items which will vary slightly per player and store them yourself.
-        for the item collection to add an item use items.addItem(GuiItem[see below]); - see documentation for for methods.*/
+        for the item collection to add an item use items.addItem(GuiItem[see below]); - see documentation for methods.*/
 		
 	}
 
 	@Override
 	protected void buildGui(Player p, ItemCollection items) {
 		/* This is run directly before the player has the GUI opened, so make any finalising changes here
-        which are reqired to be run at the time the GUI is opened. */
+        which are required to be run at the time the GUI is opened. */
 		
 	}
 
@@ -56,7 +56,7 @@ public class foo extends GUI {
 
 #### Informing the manager about the GUI
 
-Next, at some point in your code, it is recommened to be run in your main class in the onEnable() method. Add the following code to register the GUI.
+Next, at some point in your code, it is recommended to be run in your main class in the onEnable() method. Add the following code to register the GUI.
 
 ```java
 GuiManager.registerGui(new Foo());
@@ -75,7 +75,7 @@ gui.displayGui(player);
 
 ### Using Items
 
-For an item to be added to a Gui it must be included in a GuiItem Object, this is done simply by doing 
+For an item to be added to a GUI it must be included in a GuiItem Object, this is done simply by doing 
 
 ```java
 GuiItem item = new GuiItem(ItemStack);
@@ -99,7 +99,7 @@ public class FooAction implements ItemAction {
 
 #### Adding actions to items
 
-To add an aciton to an item simply do
+To add an action to an item simply do
 
 ```java
 item(GuiItem).addAction(new FooAction());
@@ -107,7 +107,7 @@ item(GuiItem).addAction(new FooAction());
 
 #### Saving and Loading items from the config
 
-In case items are required to be saved to the config, the api makes this easy as it can manage the loading and saving of items from the config: 
+In case items are required to be saved to the config, the API makes this easy as it can manage the loading and saving of items from the config: 
 
 To load do
 
@@ -130,8 +130,8 @@ There are 2 ways of using a chat Event:
 
 #### Adding a chat event to an item
 
-There is a pre-made Action called LongChatEvent which can be added to items so it is triggered when that item is clicked:
-To add this event do:
+There is a pre-made Action called LongChatEvent which can be added to items, so it is triggered when that item is clicked:
+To add this event, do:
 
 ```java
 item(GuiItem).addAction(new LongChatEvent(String message, ChatEventListener listener[see below]));
@@ -162,8 +162,8 @@ public class chatListener implements ChatEventListener{
         // This is run if the player speaks in the chat
 		// If the event is run, use documentation to see more about ChatEvent class
         /*
-        Retrun true if the entered message is valid
-        return false if the entetered message is invalid.
+        Return true if the entered message is valid
+        return false if the entered message is invalid.
         */
         
 		return false;
@@ -190,11 +190,11 @@ The way to use them is to extend the pre-built GUI class instead if the GUI clas
 
 At present there are 2 prebuilt layouts: 
 * BorderLayout which adds a border of the blank item from the GUI API config around the edge of the border
-* PageLayout which adds a foward and back button at the bottom of the GUI.
+* PageLayout which adds a forward and back button at the bottom of the GUI.
 
-### pre-exsisting actions
+### pre-existing actions
 
 To make item creation much quicker, there is some default actions which can be added to items:
-* CancelEvent - sets the InventoryInteractEvent to be canceled
+* CancelEvent - sets the InventoryInteractEvent to be cancelled
 * CloseEvent - Closes the users Inventory
 * MessageEvent - sends the user a message
