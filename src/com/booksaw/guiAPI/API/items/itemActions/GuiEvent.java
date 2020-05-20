@@ -1,5 +1,6 @@
 package com.booksaw.guiAPI.API.items.itemActions;
 
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import com.booksaw.guiAPI.API.Gui;
@@ -49,6 +50,10 @@ public class GuiEvent {
 
 	public String getActionCommand() {
 		return command;
+	}
+
+	public HumanEntity getPlayer() {
+		return e.getWhoClicked();
 	}
 
 }
