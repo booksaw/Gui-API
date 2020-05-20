@@ -1,5 +1,10 @@
 package com.booksaw.guiAPI;
 
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+
 public class GuiUseful {
 	/**
 	 * used to get the smallest size of an inventory
@@ -24,5 +29,15 @@ public class GuiUseful {
 
 			size += 9;
 		}
+	}
+
+	public static ItemStack getHead(OfflinePlayer player) {
+
+		ItemStack is = new ItemStack(Material.PLAYER_HEAD);
+		SkullMeta meta = (SkullMeta) is.getItemMeta();
+		meta.setOwningPlayer(player);
+		is.setItemMeta(meta);
+		return is;
+
 	}
 }
