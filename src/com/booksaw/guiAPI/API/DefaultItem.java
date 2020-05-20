@@ -2,7 +2,6 @@ package com.booksaw.guiAPI.API;
 
 import com.booksaw.guiAPI.APIMain;
 import com.booksaw.guiAPI.API.items.GuiItem;
-import com.booksaw.guiAPI.API.items.ItemAPI;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -23,7 +22,7 @@ public enum DefaultItem {
 	 * Used to load these items from the config (no need to touch)
 	 */
 	private void loadItem() {
-		item = new GuiItem(ItemAPI.load(APIMain.mainGuiAPI.getConfig(), "items."+ name()));
+		item = new GuiItem(APIMain.mainGuiAPI.getConfig().getItemStack("items."+ name()));
 	}
 	
 	/**

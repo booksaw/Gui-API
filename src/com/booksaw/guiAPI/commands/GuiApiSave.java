@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.booksaw.guiAPI.APIMain;
 import com.booksaw.guiAPI.API.DefaultItem;
-import com.booksaw.guiAPI.API.items.ItemAPI;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -56,7 +55,7 @@ public class GuiApiSave implements Sub {
 			return;
 		}
 
-		ItemAPI.save(is, APIMain.mainGuiAPI.getConfig(), "items." + type);
+		APIMain.mainGuiAPI.getConfig().set("items." + type, is);
 		APIMain.mainGuiAPI.saveConfig();
 		p.sendMessage(ChatColor.GOLD + "The item has been updated");
 

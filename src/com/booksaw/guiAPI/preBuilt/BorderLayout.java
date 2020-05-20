@@ -19,6 +19,7 @@ public abstract class BorderLayout extends Gui {
 	 * The item to fill it with
 	 */
 	GuiItem borderItem;
+	
 	/**
 	 * booleans to store which parts of the border are being used
 	 */

@@ -57,21 +57,4 @@ public class APIMain extends JavaPlugin {
 		GuiManager.stop();
 	}
 
-	// // TODO - build GUI and display to user (GuiManager)
-	// // EVENT LISTENING
-	// // PRE-BUILTS
-	// // DEFULT ITEMS
-	// // Layouts (border, row, column (quick ways of doing that) ENUM user
-	// // specifies
-	// // fill command (with minimum and max)
-	// // Handle closing inventories
-	// // items --> configs.
-
-	// FUTURE:
-	// easy folder system
-
-	// item lists different event in item collection
-
-	// ONGOING
-	// full JavaDocs
 }
