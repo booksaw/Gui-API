@@ -1,0 +1,25 @@
+items:
+  BLANK:
+    ==: org.bukkit.inventory.ItemStack
+    v: 2230
+    type: LIGHT_GRAY_STAINED_GLASS_PANE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: ' '
+  FOWARD:
+    ==: org.bukkit.inventory.ItemStack
+    v: 2230
+    type: GREEN_STAINED_GLASS_PANE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §bFoward
+  BACK:
+    ==: org.bukkit.inventory.ItemStack
+    v: 2230
+    type: RED_STAINED_GLASS_PANE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: §4Back

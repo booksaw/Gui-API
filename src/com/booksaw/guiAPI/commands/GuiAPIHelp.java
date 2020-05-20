@@ -8,6 +8,8 @@ public class GuiAPIHelp implements Sub {
 
 	@Override
 	public void command(CommandSender sender, String[] args, String label) {
+		sender.sendMessage(ChatColor.AQUA + "/" + label + " name <name> " + ChatColor.GOLD
+				+ "- Sets the name of the item you are holding");
 		sender.sendMessage(ChatColor.AQUA + "/" + label + " save <item> " + ChatColor.GOLD
 				+ "- saves the item you are holding examples of <item> are:");
 		sender.sendMessage(ChatColor.BLUE + "blank " + ChatColor.GOLD + "- default blank item");

@@ -21,6 +21,9 @@ public class CommandGuiAPI implements CommandExecutor {
 		case "save":
 			cmd = new GuiApiSave();
 			break;
+		case "name":
+			cmd = new GuiApiName();
+			break;
 		default:
 			cmd = new GuiAPIHelp();
 		}
