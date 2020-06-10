@@ -102,11 +102,11 @@ public class GuiManager {
 	 * @param i   - the item collection for the player
 	 * @param gui - the GUI they are viewing
 	 */
-	public static void addPlayer(Player p, ItemCollection i, Gui gui) {
-		if (players.containsKey(p)) {
-			players.remove(p);
+	public static void addPlayer(GuiPlayer player, ItemCollection i, Gui gui) {
+		if (players.containsKey(player.getPlayer())) {
+			players.remove(player.getPlayer());
 		}
-		players.put(p, new GuiPlayer(p, i, gui.REFERENCE));
+		players.put(player.getPlayer(), player);
 	}
 
 	/**

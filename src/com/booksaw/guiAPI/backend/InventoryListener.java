@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -51,14 +52,15 @@ public class InventoryListener implements Listener {
 	public void onLeave(PlayerQuitEvent e) {
 		Gui gui = GuiManager.getGui(e.getPlayer());
 
-		if (gui == null) {
-		} else
+		if (gui != null) {
 			GuiManager.removePlayer(e.getPlayer());
+			gui.onLeave(e.getPlayer());
+		}
 
 		ChatEvent ev = ChatEvent.getEvents().get(e.getPlayer());
-		if (ev == null) {
-		} else
+		if (ev != null) {
 			ev.remove();
+		}
 	}
 
 	/**
@@ -73,11 +75,36 @@ public class InventoryListener implements Listener {
 		}
 
 		Gui gui = GuiManager.getGui((Player) e.getPlayer());
+		if (Gui.getIgnoreClose().contains((Player) e.getPlayer())) {
+			Gui.removeIgnoredPlayer((Player) e.getPlayer());
+			return;
+		}
 
 		if (gui == null) {
 			return;
 		}
 
+		gui.onClose((Player) e.getPlayer());
 		GuiManager.removePlayer((Player) e.getPlayer());
+	}
+
+	@EventHandler
+	public void onDeath(PlayerDeathEvent e) {
+		if (!(e.getEntity() instanceof Player)) {
+			return;
+		}
+
+		Gui gui = GuiManager.getGui((Player) e.getEntity());
+		if (Gui.getIgnoreClose().contains((Player) e.getEntity())) {
+			Gui.removeIgnoredPlayer((Player) e.getEntity());
+			return;
+		}
+
+		if (gui == null) {
+			return;
+		}
+
+		gui.onDeath((Player) e.getEntity());
+		GuiManager.removePlayer((Player) e.getEntity());
 	}
 }

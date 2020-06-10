@@ -1,5 +1,8 @@
 package com.booksaw.guiAPI.API;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,6 +23,30 @@ import net.md_5.bungee.api.ChatColor;
  * @author booksaw
  */
 public abstract class Gui {
+
+	/**
+	 * This list is used to track any players which are being transferred between
+	 * inventories instead of closing an inventory, this is used to ensure
+	 * onClose(Player) is only run when the player closes the GUI manually
+	 */
+	private static List<Player> ignoreClose = new ArrayList<>();
+
+	/**
+	 * @return a list of players who are being transferred between inventories
+	 */
+	public static List<Player> getIgnoreClose() {
+		return ignoreClose;
+	}
+
+	/**
+	 * This method should be used once a the close event for the inventory transfer
+	 * is detected
+	 * 
+	 * @param player the player to remove from the ignore list
+	 */
+	public static void removeIgnoredPlayer(Player player) {
+		ignoreClose.remove(player);
+	}
 
 	/**
 	 * The largest an inventory can be (the size of a double chest inventory)
@@ -46,7 +73,7 @@ public abstract class Gui {
 	 * A variable of the enum SizeType, which is used to specify how the size is
 	 * calculated, default is SizeType.SMALLEST
 	 */
-	public SizeType sizeType;
+	public SizeType sizeType = SizeType.SMALLEST;
 
 	/**
 	 * Chance this variable if SizeType is set to custom
@@ -59,7 +86,6 @@ public abstract class Gui {
 	 */
 	public void enable() {
 		items = new ItemCollection();
-		sizeType = SizeType.SMALLEST;
 
 		name = getName();
 		REFERENCE = getReference();
@@ -88,10 +114,41 @@ public abstract class Gui {
 
 		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), name);
 		itemsClone.buildGui(i);
-
-		GuiManager.addPlayer(p, itemsClone, this);
-
+		ignoreClose.add(p);
 		p.openInventory(i);
+		ignoreClose.remove(p);
+		// TODO add names etc.
+		// a way to have unique names for each player
+		GuiPlayer player = new GuiPlayer(p, itemsClone, REFERENCE);
+		GuiManager.addPlayer(player, itemsClone, this);
+		return true;
+	}
+
+	/**
+	 * Use to display the GUI to the player
+	 * 
+	 * @param p - the player which the gui should be displayed to
+	 * @return result - false if the clone does not work - true if the gui was
+	 *         displayed
+	 */
+	public boolean displayGui(GuiPlayer p) {
+		ItemCollection itemsClone;
+
+		try {
+			itemsClone = items.clone();
+		} catch (CloneNotSupportedException e) {
+			return false;
+		}
+
+		buildGui(p.getPlayer(), itemsClone);
+
+		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), name);
+		itemsClone.buildGui(i);
+
+		ignoreClose.add(p.getPlayer());
+		p.getPlayer().openInventory(i);
+		ignoreClose.remove(p.getPlayer());
+		GuiManager.addPlayer(p, itemsClone, this);
 		return true;
 	}
 
@@ -106,6 +163,12 @@ public abstract class Gui {
 	 *            want / cancel it)
 	 */
 	public void click(Player p, Gui gui, ItemStack is, InventoryClickEvent e) {
+		// checking if it is the players inventory
+		if (p.getInventory() == e.getClickedInventory()) {
+			clickedMainInventory(p, is, e);
+			return;
+		}
+
 		try {
 			GuiPlayer guip = GuiManager.players.get(p);
 			if (guip == null) {
@@ -123,6 +186,47 @@ public abstract class Gui {
 			e.setCancelled(true);
 			ex.printStackTrace();
 		}
+	}
+
+	/**
+	 * this method can be overwritten if you do not want the event to be cancelled
+	 * if the user selects an item in their own inventory (not the chest GUI)
+	 * 
+	 * @param p   the player that ran the event
+	 * @param gui the GUI that they had open (use GuiManager to get)
+	 * @param is  the Item that they clicked on
+	 * @param e   The event (so plugin developers can get all the details they want
+	 *            / cancel it)
+	 */
+	public void clickedMainInventory(Player p, ItemStack is, InventoryClickEvent event) {
+		event.setCancelled(true);
+	}
+
+	/**
+	 * This method can be used if your GUI needs to detect when a player leaves the
+	 * server while interacting with your GUI
+	 * 
+	 * @param player the player which has left
+	 */
+	public void onLeave(Player player) {
+	}
+
+	/**
+	 * this method can be used if your GUI needs to detect when a player closes the
+	 * GUI
+	 * 
+	 * @param player the player which closed the GUI
+	 */
+	public void onClose(Player player) {
+	}
+
+	/**
+	 * this method can be used if your GUI needs to detect when a player dies while
+	 * in the GUI
+	 * 
+	 * @param player the player which closed the GUI
+	 */
+	public void onDeath(Player player) {
 	}
 
 	/**

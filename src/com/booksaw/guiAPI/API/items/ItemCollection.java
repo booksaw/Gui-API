@@ -74,6 +74,39 @@ public class ItemCollection implements Cloneable {
 	}
 
 	/**
+	 * Used to add an item at the specified location
+	 * 
+	 * @param item the item to add to the gui
+	 * @param x    the x location of the item (starting at 0, 0 being the top left)
+	 * @param y    the y location of the item
+	 */
+	public void addItem(GuiItem item, int x, int y) {
+		// item not in gui, no need in adding
+		if (x > 8) {
+			return;
+		}
+		addItem(item, (y * 9) + x);
+	}
+
+	/**
+	 * Used to fill an area with a specified item
+	 * 
+	 * @param item   the item to fill the area with
+	 * @param x      the x location of the item (starting at 0, 0 being the top
+	 *               left)
+	 * @param y      the y location of the item
+	 * @param width  the width of the area to be filled
+	 * @param height the height of the area to be filled
+	 */
+	public void fillItem(GuiItem item, int x, int y, int width, int height) {
+		for (int i = x; i < width + x; i++) {
+			for (int j = y; j < height + y; j++) {
+				addItem(item, i, j);
+			}
+		}
+	}
+
+	/**
 	 * Used to add an item in the first available slot
 	 * 
 	 * @param item - the item that should be added
@@ -258,6 +291,13 @@ public class ItemCollection implements Cloneable {
 
 			addItem(is, i);
 		}
+	}
+
+	/**
+	 * This method is used to remove all items from this collection
+	 */
+	public void clearAll() {
+		items.clear();
 	}
 
 }
