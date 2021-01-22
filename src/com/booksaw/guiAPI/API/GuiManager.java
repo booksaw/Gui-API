@@ -87,7 +87,7 @@ public class GuiManager {
 	@Deprecated
 	public static Gui getGuiByName(String name) {
 		for (Gui gui : guis) {
-			if (gui.name.equals(name)) {
+			if (gui.getName().equals(name)) {
 				return gui;
 			}
 		}

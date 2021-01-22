@@ -59,11 +59,6 @@ public abstract class Gui {
 	protected ItemCollection items;
 
 	/**
-	 * The name of the inventory
-	 */
-	public String name;
-
-	/**
 	 * The unique reference for this GUI (so it does not conflict with other
 	 * plugins)
 	 */
@@ -87,11 +82,20 @@ public abstract class Gui {
 	public void enable() {
 		items = new ItemCollection();
 
-		name = getName();
 		REFERENCE = getReference();
 		layout(items);
 		initialise(items);
 
+	}
+
+	/**
+	 * Used to rebuild the item collection if your plugin wants to make changes to
+	 * it
+	 */
+	public void reinitGui() {
+		items = new ItemCollection();
+		layout(items);
+		initialise(items);
 	}
 
 	/**
@@ -112,7 +116,7 @@ public abstract class Gui {
 
 		buildGui(p, itemsClone);
 
-		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), name);
+		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), getName());
 		itemsClone.buildGui(i);
 		ignoreClose.add(p);
 		p.openInventory(i);
@@ -142,7 +146,7 @@ public abstract class Gui {
 
 		buildGui(p.getPlayer(), itemsClone);
 
-		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), name);
+		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), getName());
 		itemsClone.buildGui(i);
 
 		ignoreClose.add(p.getPlayer());
