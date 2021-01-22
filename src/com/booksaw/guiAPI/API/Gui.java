@@ -79,7 +79,7 @@ public abstract class Gui {
 	 * No point extending - only done to setup some GuiAPI stuff before initialise()
 	 * is run.
 	 */
-	public void enable() {
+	public final void enable() {
 		items = new ItemCollection();
 
 		REFERENCE = getReference();
