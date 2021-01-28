@@ -35,6 +35,10 @@ public class APIMain extends JavaPlugin {
 		// saving config
 		saveDefaultConfig();
 
+		// SETTING UP BSTATS
+		int pluginId = 10163;
+		new Metrics(this, pluginId);
+
 		// loading default items
 		DefaultItem.load();
 
