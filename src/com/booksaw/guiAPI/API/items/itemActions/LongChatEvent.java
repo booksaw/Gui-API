@@ -7,7 +7,6 @@ import com.booksaw.guiAPI.API.chatEvent.ChatEventLong;
 
 public class LongChatEvent implements ItemAction {
 
-	private String message;
 	private ChatEventListener listener;
 	private boolean forceComplete;
 
@@ -21,8 +20,8 @@ public class LongChatEvent implements ItemAction {
 	 * @param listener - The class which implements ChatEventListener, which will be
 	 *                 notified when the player enters the response
 	 */
-	public LongChatEvent(String message, ChatEventListener listener) {
-		this(message, listener, false);
+	public LongChatEvent(ChatEventListener listener) {
+		this(listener, false);
 	}
 
 	/**
@@ -38,15 +37,14 @@ public class LongChatEvent implements ItemAction {
 	 *                      be invalid, if they have to try again or if the event if
 	 *                      cancelled) -- default false
 	 */
-	public LongChatEvent(String message, ChatEventListener listener, boolean forceComplete) {
-		this.message = message;
+	public LongChatEvent(ChatEventListener listener, boolean forceComplete) {
 		this.listener = listener;
 		this.forceComplete = forceComplete;
 	}
 
 	@Override
 	public void onEvent(GuiEvent e) {
-		ChatEventLong eLong = new ChatEventLong((Player) e.e.getWhoClicked(), message, listener, forceComplete);
+		ChatEventLong eLong = new ChatEventLong((Player) e.e.getWhoClicked(), listener, forceComplete);
 		eLong.runEvent();
 	}
 

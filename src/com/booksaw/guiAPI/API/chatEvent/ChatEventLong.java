@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
  */
 public class ChatEventLong extends ChatEvent {
 
-	private String message;
-
 	/**
 	 * Used to create a new ChatEventLong class, this class is used to store the
 	 * details of a player who is a in a PlayerChatEvent
@@ -25,7 +23,7 @@ public class ChatEventLong extends ChatEvent {
 	 *                 notified when the player enters the response
 	 */
 	public ChatEventLong(Player p, String message, ChatEventListener listener) {
-		this(p, message, listener, false);
+		this(p, listener, false);
 	}
 
 	/**
@@ -41,9 +39,8 @@ public class ChatEventLong extends ChatEvent {
 	 *                      be invalid, if they have to try again or if the event if
 	 *                      cancelled) -- default false
 	 */
-	public ChatEventLong(Player p, String message, ChatEventListener listener, boolean forceComplete) {
+	public ChatEventLong(Player p, ChatEventListener listener, boolean forceComplete) {
 		super(listener, p);
-		this.message = message;
 		this.forceComplete = forceComplete;
 	}
 
@@ -51,7 +48,7 @@ public class ChatEventLong extends ChatEvent {
 	public boolean runEvent() {
 		boolean worked = super.runEvent();
 		if (worked) {
-			p.sendMessage(message);
+			listener.sendMessage(p);
 			return true;
 		}
 		return false;

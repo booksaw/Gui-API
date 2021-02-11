@@ -23,9 +23,9 @@ public abstract class ChatEvent {
 	}
 
 	protected Player p;
-	private ChatEventListener listener;
+	protected ChatEventListener listener;
 	boolean forceComplete;
-	public String message;
+	private String message;
 
 	public ChatEvent(ChatEventListener listener, Player p) {
 		this.listener = listener;
@@ -48,7 +48,7 @@ public abstract class ChatEvent {
 	}
 
 	public void onChat(String message) {
-		this.message = message; 
+		this.message = message;
 		if (listener.runEvent(this)) {
 			events.remove(p);
 		} else if (!forceComplete) {
@@ -78,6 +78,9 @@ public abstract class ChatEvent {
 	public Player getPlayer() {
 		return p;
 	}
-	
-	
+
+	public String getMessage() {
+		return message;
+	}
+
 }
