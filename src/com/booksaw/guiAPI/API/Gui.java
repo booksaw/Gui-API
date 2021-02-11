@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.booksaw.guiAPI.APIMain;
 import com.booksaw.guiAPI.API.items.GuiItem;
 import com.booksaw.guiAPI.API.items.ItemCollection;
 import com.booksaw.guiAPI.API.items.itemActions.GuiEvent;
@@ -136,9 +137,8 @@ public abstract class Gui {
 		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), itemsClone.getName());
 		itemsClone.buildGui(i);
 		ignoreClose.add(p);
-		p.openInventory(i);
+		openInventory(p, i);
 		ignoreClose.remove(p);
-		// TODO add names etc.
 		// a way to have unique names for each player
 		GuiPlayer player = new GuiPlayer(p, itemsClone, REFERENCE);
 		GuiManager.addPlayer(player, itemsClone, this);
@@ -184,10 +184,32 @@ public abstract class Gui {
 		itemsClone.buildGui(i);
 
 		ignoreClose.add(p.getPlayer());
-		p.getPlayer().openInventory(i);
+		openInventory(p.getPlayer(), i);
 		ignoreClose.remove(p.getPlayer());
 		GuiManager.addPlayer(p, itemsClone, this);
 		return true;
+	}
+
+	/**
+	 * Used to open the provded inventory (ensures that this is run sychronously)
+	 * 
+	 * @param p The player to open the inventory for
+	 * @param i The inventory to open
+	 */
+	private void openInventory(Player p, Inventory i) {
+
+		if (Bukkit.isPrimaryThread()) {
+			p.openInventory(i);
+		} else {
+			Bukkit.getScheduler().runTask(APIMain.mainGuiAPI, new Runnable() {
+
+				@Override
+				public void run() {
+					p.openInventory(i);
+				}
+			});
+		}
+
 	}
 
 	/**

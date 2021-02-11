@@ -22,7 +22,7 @@ public abstract class ChatEvent {
 		return events;
 	}
 
-	public Player p;
+	protected Player p;
 	private ChatEventListener listener;
 	boolean forceComplete;
 	public String message;
@@ -74,4 +74,10 @@ public abstract class ChatEvent {
 		events.remove(p);
 		listener.cancel(this);
 	}
+
+	public Player getPlayer() {
+		return p;
+	}
+	
+	
 }
