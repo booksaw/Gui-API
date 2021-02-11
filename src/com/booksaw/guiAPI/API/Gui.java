@@ -76,7 +76,7 @@ public abstract class Gui {
 	public int size = -1;
 
 	/**
-	 * No point extending - only done to setup some GuiAPI stuff before initialise()
+	 * No point extending only done to setup some GuiAPI stuff before initialise()
 	 * is run.
 	 */
 	public final void enable() {
@@ -101,11 +101,23 @@ public abstract class Gui {
 	/**
 	 * Use to display the GUI to the player
 	 * 
-	 * @param p - the player which the gui should be displayed to
-	 * @return result - false if the clone does not work - true if the gui was
+	 * @param p the player which the gui should be displayed to
+	 * @return result false if the clone does not work - true if the gui was
 	 *         displayed
 	 */
 	public boolean displayGui(Player p) {
+		return displayGui(p, null);
+	}
+
+	/**
+	 * Use to display the GUI to the player
+	 * 
+	 * @param p       the player which the gui should be displayed to
+	 * @param details details to pass onto the gui
+	 * @return result false if the clone does not work - true if the gui was
+	 *         displayed
+	 */
+	public boolean displayGui(Player p, String[] details) {
 		ItemCollection itemsClone;
 
 		try {
@@ -114,9 +126,14 @@ public abstract class Gui {
 			return false;
 		}
 
-		buildGui(p, itemsClone);
+		if (details == null) {
+			details = new String[0];
+		}
 
-		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), getName());
+		itemsClone.setName(getName());
+		buildGui(p, itemsClone, details);
+
+		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), itemsClone.getName());
 		itemsClone.buildGui(i);
 		ignoreClose.add(p);
 		p.openInventory(i);
@@ -131,11 +148,23 @@ public abstract class Gui {
 	/**
 	 * Use to display the GUI to the player
 	 * 
-	 * @param p - the player which the gui should be displayed to
-	 * @return result - false if the clone does not work - true if the gui was
+	 * @param p the player which the gui should be displayed to
+	 * @return result false if the clone does not work - true if the gui was
 	 *         displayed
 	 */
 	public boolean displayGui(GuiPlayer p) {
+		return displayGui(p, null);
+	}
+
+	/**
+	 * Use to display the GUI to the player
+	 * 
+	 * @param p       the player which the gui should be displayed to
+	 * @param details details to pass onto the gui
+	 * @return result false if the clone does not work - true if the gui was
+	 *         displayed
+	 */
+	public boolean displayGui(GuiPlayer p, String details[]) {
 		ItemCollection itemsClone;
 
 		try {
@@ -144,9 +173,14 @@ public abstract class Gui {
 			return false;
 		}
 
-		buildGui(p.getPlayer(), itemsClone);
+		if (details == null) {
+			details = new String[0];
+		}
 
-		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), getName());
+		itemsClone.setName(getName());
+		buildGui(p.getPlayer(), itemsClone, details);
+
+		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), itemsClone.getName());
 		itemsClone.buildGui(i);
 
 		ignoreClose.add(p.getPlayer());
@@ -160,11 +194,11 @@ public abstract class Gui {
 	 * Mainly used back-end when the event is called but could be used to force a
 	 * player to click on an item
 	 * 
-	 * @param p   - the player that ran the event
-	 * @param gui - the GUI that they had open (use GuiManager to get)
-	 * @param is  - the Item that they clicked on
-	 * @param e   - The event (so plugin developers can get all the details they
-	 *            want / cancel it)
+	 * @param p   the player that ran the event
+	 * @param gui the GUI that they had open (use GuiManager to get)
+	 * @param is  the Item that they clicked on
+	 * @param e   The event (so plugin developers can get all the details they want
+	 *            / cancel it)
 	 */
 	public void click(Player p, Gui gui, ItemStack is, InventoryClickEvent e) {
 		// checking if it is the players inventory
@@ -269,11 +303,12 @@ public abstract class Gui {
 	 * In this method, put everything which is run right at the end (Everything
 	 * which requires the player to run
 	 * 
-	 * @param p     - the player who is going to open the inventory
-	 * @param items - the ItemCollection of the inventory
+	 * @param p       the player who is going to open the inventory
+	 * @param items   the ItemCollection of the inventory
+	 * @param details any provided details
 	 * @return the item collection
 	 */
-	protected abstract void buildGui(Player p, ItemCollection items);
+	protected abstract void buildGui(Player p, ItemCollection items, String[] details);
 
 	/**
 	 * Run before initialise() Only used if you want to create a extendable class

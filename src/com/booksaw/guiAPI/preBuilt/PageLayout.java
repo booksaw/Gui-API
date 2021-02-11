@@ -53,11 +53,11 @@ public abstract class PageLayout extends Gui {
 	}
 
 	@Override
-	protected void buildGui(Player p, ItemCollection items) {
+	protected void buildGui(Player p, ItemCollection items, String[] details) {
 		List<GuiItem> contents = new ArrayList<>(this.contents);
 		addItems(p, contents);
 		GuiItem[] bottomBar = this.bottomBar.clone();
-		configureBottomBar(p, bottomBar);
+		configureBottomBar(p, bottomBar, details);
 
 		size = GuiUseful.getSize(contents.size());
 		if (size < 0 || size >= 54) {
@@ -131,8 +131,9 @@ public abstract class PageLayout extends Gui {
 	 * 
 	 * @param bottomBar the bottom bar of the page
 	 * @param player    the player the GUI is about to be displayed to
+	 * @param details   the details about this gui
 	 */
-	public abstract void configureBottomBar(Player player, GuiItem[] bottomBar);
+	public abstract void configureBottomBar(Player player, GuiItem[] bottomBar, String[] details);
 
 	@Override
 	protected void initialise(ItemCollection items) {

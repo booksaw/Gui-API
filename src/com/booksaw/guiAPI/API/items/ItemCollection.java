@@ -21,6 +21,11 @@ import com.booksaw.guiAPI.API.Gui;
 public class ItemCollection implements Cloneable {
 
 	/**
+	 * The name of the gui
+	 */
+	private String name;
+
+	/**
 	 * The items in this collection
 	 */
 	private HashMap<Integer, GuiItem> items = new HashMap<>();;
@@ -298,6 +303,25 @@ public class ItemCollection implements Cloneable {
 	 */
 	public void clearAll() {
 		items.clear();
+	}
+
+	/**
+	 * The name of the gui that is going to be created
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Used to change the name of the gui (only use in buildGui), this name is reset
+	 * at the end of initalise
+	 * 
+	 * @param name The name of the gui relating to this player
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
