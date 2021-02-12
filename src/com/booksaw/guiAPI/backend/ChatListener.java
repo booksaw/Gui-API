@@ -10,11 +10,10 @@ public class ChatListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent e) {
-		
-		if(ChatEvent.getEvents().containsKey(e.getPlayer())) {
+		if (ChatEvent.getEvents().containsKey(e.getPlayer())) {
 			e.setCancelled(true);
 			ChatEvent.getEvents().get(e.getPlayer()).onChat(e.getMessage());
 		}
-	
+
 	}
 }

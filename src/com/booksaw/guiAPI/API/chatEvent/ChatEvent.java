@@ -50,7 +50,10 @@ public abstract class ChatEvent {
 	public void onChat(String message) {
 		this.message = message;
 		if (listener.runEvent(this)) {
-			events.remove(p);
+			// if this event has not already been cancelled within the chatEvent
+			if (events.containsValue(this)) {
+				events.remove(p);
+			}
 		} else if (!forceComplete) {
 			cancel();
 		} else {

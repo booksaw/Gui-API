@@ -22,7 +22,7 @@ public class ChatEventLong extends ChatEvent {
 	 * @param listener - The class which implements ChatEventListener, which will be
 	 *                 notified when the player enters the response
 	 */
-	public ChatEventLong(Player p, String message, ChatEventListener listener) {
+	public ChatEventLong(Player p, ChatEventListener listener) {
 		this(p, listener, false);
 	}
 
@@ -48,7 +48,7 @@ public class ChatEventLong extends ChatEvent {
 	public boolean runEvent() {
 		boolean worked = super.runEvent();
 		if (worked) {
-			listener.sendMessage(p);
+			listener.sendMessage(this);
 			return true;
 		}
 		return false;

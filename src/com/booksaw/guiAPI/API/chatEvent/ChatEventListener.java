@@ -1,7 +1,5 @@
 package com.booksaw.guiAPI.API.chatEvent;
 
-import org.bukkit.entity.Player;
-
 public interface ChatEventListener {
 
 	/**
@@ -17,6 +15,6 @@ public interface ChatEventListener {
 	 * Send the prompt message to the player
 	 * @param p
 	 */
-	public void sendMessage(Player p);
+	public void sendMessage(ChatEvent e);
 
 }
