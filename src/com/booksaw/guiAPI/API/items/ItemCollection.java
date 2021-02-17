@@ -238,7 +238,7 @@ public class ItemCollection implements Cloneable {
 	 */
 	public GuiItem getItem(ItemStack is) {
 		for (Entry<Integer, GuiItem> temp : items.entrySet()) {
-			if (temp.getValue().getItem().isSimilar(is)) {
+			if (temp.getValue().getItem().equals(is)) {
 				return temp.getValue();
 			}
 		}
@@ -252,12 +252,12 @@ public class ItemCollection implements Cloneable {
 	 *
 	 */
 	public enum Direction {
-		DOWN
+		DOWN,
 		/**
 		 * Will fill between the two columns downwards -- if they are not on same column
 		 * will move onto next until it is found
 		 */
-		,ACROSS/** Fills across (reaches end of row, moves to next row) */
+		ACROSS/** Fills across (reaches end of row, moves to next row) */
 
 	}
 
@@ -322,6 +322,10 @@ public class ItemCollection implements Cloneable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public HashMap<Integer, GuiItem> getItems() {
+		return items;
 	}
 
 }

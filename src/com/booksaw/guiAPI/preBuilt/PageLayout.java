@@ -33,7 +33,7 @@ public abstract class PageLayout extends Gui {
 	protected GuiItem[] bottomBar = null;
 
 	@Override
-	protected void layout(ItemCollection items) {
+	protected final void layout(ItemCollection items) {
 		pages = new HashMap<>();
 		sizeType = SizeType.CUSTOM;
 		contents = new ArrayList<>();
@@ -44,16 +44,16 @@ public abstract class PageLayout extends Gui {
 		back.setActionCommand("back");
 		bottomBar[3] = back;
 
-		GuiItem foward = DefaultItem.FOWARD.getItem();
+		GuiItem foward = DefaultItem.FORWARD.getItem();
 		foward.addAction(new EventHandle());
-		foward.setActionCommand("foward");
+		foward.setActionCommand("forward");
 		bottomBar[5] = foward;
 		configureBottomBar(bottomBar);
 		addItems(contents);
 	}
 
 	@Override
-	protected void buildGui(Player p, ItemCollection items, String[] details) {
+	protected final void buildGui(Player p, ItemCollection items, String[] details) {
 		List<GuiItem> contents = new ArrayList<>(this.contents);
 		addItems(p, contents);
 		GuiItem[] bottomBar = this.bottomBar.clone();
@@ -169,7 +169,7 @@ public abstract class PageLayout extends Gui {
 			Integer pageInt;
 
 			switch (e.getActionCommand()) {
-			case "foward":
+			case "forward":
 				// getting the page that the player is viewing
 				pageInt = pages.get((Player) e.getPlayer()) + 1;
 				if (pageInt == null || pageInt < 0) {

@@ -14,7 +14,7 @@ import net.md_5.bungee.api.ChatColor;
  * @author booksaw
  */
 public enum DefaultItem {
-	BLANK/** default: black glass pane with no name*/, BACK/** default: red glass pane with "BACK" as name*/, FOWARD/** default: green glass pane with "FOWARD" as name*/;
+	BLANK/** default: black glass pane with no name*/, BACK/** default: red glass pane with "BACK" as name*/, FORWARD/** default: green glass pane with "FOWARD" as name*/;
 
 	private GuiItem item;
 	

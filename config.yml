@@ -1,25 +1,25 @@
 items:
   BLANK:
     ==: org.bukkit.inventory.ItemStack
-    v: 2230
-    type: LIGHT_GRAY_STAINED_GLASS_PANE
+    v: 2584
+    type: GRAY_STAINED_GLASS_PANE
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
       display-name: ' '
-  FOWARD:
+  FORWARD:
     ==: org.bukkit.inventory.ItemStack
-    v: 2230
+    v: 2584
     type: GREEN_STAINED_GLASS_PANE
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: Â§bFoward
+      display-name: §aForward
   BACK:
     ==: org.bukkit.inventory.ItemStack
-    v: 2230
+    v: 2584
     type: RED_STAINED_GLASS_PANE
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: Â§4Back
+      display-name: §cBack

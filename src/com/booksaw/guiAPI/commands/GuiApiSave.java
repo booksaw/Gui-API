@@ -23,7 +23,7 @@ public class GuiApiSave implements Sub {
 		if (args.length < 2) {
 			sender.sendMessage(ChatColor.GRAY + "/" + label + " save <name> -- see below for possible names");
 			sender.sendMessage(ChatColor.BLUE + "blank " + ChatColor.GOLD + "- default blank item");
-			sender.sendMessage(ChatColor.BLUE + "foward " + ChatColor.GOLD + "- default foward item");
+			sender.sendMessage(ChatColor.BLUE + "forward " + ChatColor.GOLD + "- default forward item");
 			sender.sendMessage(ChatColor.BLUE + "back " + ChatColor.GOLD + "- default back item");
 			return;
 		}
@@ -37,13 +37,13 @@ public class GuiApiSave implements Sub {
 		case "BACK":
 			type = DefaultItem.BACK;
 			break;
-		case "FOWARD":
-			type = DefaultItem.FOWARD;
+		case "FORWARD":
+			type = DefaultItem.FORWARD;
 			break;
 		default:
 			sender.sendMessage(ChatColor.GRAY + "/" + label + " save <name> -- see below for possible names");
 			sender.sendMessage(ChatColor.BLUE + "blank " + ChatColor.GOLD + "- default blank item");
-			sender.sendMessage(ChatColor.BLUE + "foward " + ChatColor.GOLD + "- default foward item");
+			sender.sendMessage(ChatColor.BLUE + "forward " + ChatColor.GOLD + "- default forward item");
 			sender.sendMessage(ChatColor.BLUE + "back " + ChatColor.GOLD + "- default back item");
 			return;
 		}

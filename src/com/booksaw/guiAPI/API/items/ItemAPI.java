@@ -2,12 +2,15 @@ package com.booksaw.guiAPI.API.items;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import com.mojang.authlib.GameProfile;
@@ -62,7 +65,7 @@ public class ItemAPI {
 	public static ItemStack load(FileConfiguration f, String ref) {
 		return f.getItemStack(ref);
 	}
-	
+
 	/**
 	 * Used to get a skull of the provided player
 	 * 
@@ -106,5 +109,53 @@ public class ItemAPI {
 
 		head.setItemMeta(skullMeta);
 		return head;
+	}
+
+	/**
+	 * Used to replace placeholders when an item is loaded from a config These
+	 * placeholders should be surrounded in { }
+	 * 
+	 * @param is           The itemstack to replace the placeholders for
+	 * @param placeholders The placeholders that need replacing
+	 * @param values       The new values of those placeholders
+	 */
+	public static void replaceInternalPlaceholders(ItemStack is, String[] placeholders, String[] values) {
+
+		if (placeholders.length != values.length) {
+			throw new IllegalArgumentException("Number of values and placeholders provided does not match" + "");
+		}
+
+		ItemMeta meta = is.getItemMeta();
+
+		meta.setDisplayName(internalPlaceholders(meta.getDisplayName(), placeholders, values));
+
+		List<String> lore = meta.getLore();
+
+		if (lore != null) {
+
+			List<String> newLore = new ArrayList<>();
+
+			for (String str : lore) {
+				newLore.add(internalPlaceholders(str, placeholders, values));
+			}
+			meta.setLore(newLore);
+		}
+
+		is.setItemMeta(meta);
+
+	}
+
+	private static String internalPlaceholders(String str, String[] placeholders, String[] values) {
+
+		for (int i = 0; i < placeholders.length; i++) {
+			String toreplace = placeholders[i];
+			if (!toreplace.startsWith("{")) {
+				toreplace = "\\{" + toreplace + "\\}";
+			}
+			str = str.replaceAll(toreplace, values[i]);
+		}
+
+		return str;
+
 	}
 }

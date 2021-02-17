@@ -191,7 +191,7 @@ public abstract class Gui {
 	}
 
 	/**
-	 * Used to open the provded inventory (ensures that this is run sychronously)
+	 * Used to open the provided inventory (ensures that this is run sychronously)
 	 * 
 	 * @param p The player to open the inventory for
 	 * @param i The inventory to open
@@ -232,12 +232,13 @@ public abstract class Gui {
 		try {
 			GuiPlayer guip = GuiManager.players.get(p);
 			if (guip == null) {
-				Bukkit.getLogger().warning(ChatColor.RED + "COULD NOT FIND PLAYER, ALERT BOOKSAW");
+				Bukkit.getLogger().warning(
+						ChatColor.RED + "Could not find player, this should never happen. Please make a bug report.");
 				return;
 			}
 			GuiItem item = guip.items.getItem(is);
 			if (item == null) {
-				System.out.println("Item is not recognised");
+				Bukkit.getLogger().warning("Item is not recognised");
 				e.setCancelled(true);
 				return;
 			}
