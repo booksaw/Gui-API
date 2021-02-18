@@ -236,7 +236,7 @@ public abstract class Gui {
 						ChatColor.RED + "Could not find player, this should never happen. Please make a bug report.");
 				return;
 			}
-			GuiItem item = guip.items.getItem(is);
+			GuiItem item = guip.items.getItem(e.getSlot());
 			if (item == null) {
 				Bukkit.getLogger().warning("Item is not recognised");
 				e.setCancelled(true);
