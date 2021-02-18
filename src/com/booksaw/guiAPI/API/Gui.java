@@ -134,6 +134,10 @@ public abstract class Gui {
 		itemsClone.setName(getName());
 		buildGui(p, itemsClone, details);
 
+		if (itemsClone.getName() == null) {
+			itemsClone.setName("");
+		}
+
 		Inventory i = Bukkit.createInventory(null, sizeType.getSize(items.getLastItem(), size), itemsClone.getName());
 		itemsClone.buildGui(i);
 		ignoreClose.add(p);
