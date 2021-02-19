@@ -55,7 +55,7 @@ public abstract class PageLayout extends Gui {
 	@Override
 	protected final void buildGui(Player p, ItemCollection items, String[] details) {
 		List<GuiItem> contents = new ArrayList<>(this.contents);
-		addItems(p, contents);
+		addItems(p, contents, details);
 		GuiItem[] bottomBar = this.bottomBar.clone();
 		configureBottomBar(p, bottomBar, details);
 
@@ -112,8 +112,9 @@ public abstract class PageLayout extends Gui {
 	 * 
 	 * @param p        the player who is opening the GUI
 	 * @param contents the contents of the GUI
+	 * @param details  the details provided about the GUI
 	 */
-	public abstract void addItems(Player p, List<GuiItem> contents);
+	public abstract void addItems(Player p, List<GuiItem> contents, String[] details);
 
 	/**
 	 * This is run when the GUI is first made and can be used to change the bottom
