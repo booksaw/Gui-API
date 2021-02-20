@@ -78,6 +78,13 @@ public class ItemBuilder {
 		return this;
 	}
 
+	public ItemBuilder setType(Material type) {
+		item.setItemMeta(meta);
+		item.setType(type);
+		meta = item.getItemMeta();
+		return this;
+	}
+
 	/**
 	 * Used if a custom item builder is wanted with a message manager for example
 	 * 
