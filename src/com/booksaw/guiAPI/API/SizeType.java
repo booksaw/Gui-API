@@ -47,7 +47,7 @@ public enum SizeType {
 					break;
 				}
 
-				if (lastItem <= size) {
+				if (lastItem < size) {
 					break;
 				}
 

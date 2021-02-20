@@ -209,7 +209,9 @@ public class ItemCollection implements Cloneable {
 	public Inventory buildGui(Inventory i) {
 
 		for (Entry<Integer, GuiItem> item : items.entrySet()) {
-			i.setItem(item.getKey(), item.getValue().getItem());
+			if (item.getKey() < i.getSize()) {
+				i.setItem(item.getKey(), item.getValue().getItem());
+			}
 		}
 
 		return i;
