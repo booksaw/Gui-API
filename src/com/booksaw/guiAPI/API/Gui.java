@@ -6,6 +6,8 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -242,8 +244,7 @@ public abstract class Gui {
 			}
 			GuiItem item = guip.items.getItem(e.getSlot());
 			if (item == null) {
-				Bukkit.getLogger().warning("Item is not recognised");
-				e.setCancelled(true);
+				unrecognisedItem(p, e.getCurrentItem(), e);
 				return;
 			}
 			item.runAction(new GuiEvent(e, gui, item.getActionCommand()));
@@ -257,13 +258,24 @@ public abstract class Gui {
 	 * this method can be overwritten if you do not want the event to be cancelled
 	 * if the user selects an item in their own inventory (not the chest GUI)
 	 * 
-	 * @param p   the player that ran the event
-	 * @param gui the GUI that they had open (use GuiManager to get)
-	 * @param is  the Item that they clicked on
-	 * @param e   The event (so plugin developers can get all the details they want
-	 *            / cancel it)
+	 * @param p  the player that ran the event
+	 * @param is the Item that they clicked on
+	 * @param e  The event (so plugin developers can get all the details they want /
+	 *           cancel it)
 	 */
 	public void clickedMainInventory(Player p, ItemStack is, InventoryClickEvent event) {
+		event.setCancelled(true);
+	}
+
+	/**
+	 * This method is called if an item is found in the GUI portion of the
+	 * 
+	 * @param p     The player that ran the event
+	 * @param is    The item they selected
+	 * @param event The event
+	 */
+	public void unrecognisedItem(Player p, ItemStack is, InventoryClickEvent event) {
+		Bukkit.getLogger().warning("Item is not recognised");
 		event.setCancelled(true);
 	}
 
@@ -273,7 +285,7 @@ public abstract class Gui {
 	 * 
 	 * @param player the player which has left
 	 */
-	public void onLeave(Player player) {
+	public void onLeave(Player player, PlayerQuitEvent e) {
 	}
 
 	/**
@@ -282,7 +294,7 @@ public abstract class Gui {
 	 * 
 	 * @param player the player which closed the GUI
 	 */
-	public void onClose(Player player) {
+	public void onClose(Player player, InventoryCloseEvent e) {
 	}
 
 	/**

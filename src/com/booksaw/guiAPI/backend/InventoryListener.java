@@ -36,7 +36,6 @@ public class InventoryListener implements Listener {
 			return;
 		}
 		Gui gui = GuiManager.getGui((Player) e.getWhoClicked());
-
 		if (gui == null) {
 			return;
 		}
@@ -54,7 +53,7 @@ public class InventoryListener implements Listener {
 
 		if (gui != null) {
 			GuiManager.removePlayer(e.getPlayer());
-			gui.onLeave(e.getPlayer());
+			gui.onLeave(e.getPlayer(), e);
 		}
 
 		ChatEvent ev = ChatEvent.getEvents().get(e.getPlayer());
@@ -84,8 +83,8 @@ public class InventoryListener implements Listener {
 			return;
 		}
 
-		gui.onClose((Player) e.getPlayer());
 		GuiManager.removePlayer((Player) e.getPlayer());
+		gui.onClose((Player) e.getPlayer(), e);
 	}
 
 	@EventHandler
@@ -104,7 +103,7 @@ public class InventoryListener implements Listener {
 			return;
 		}
 
-		gui.onDeath((Player) e.getEntity());
 		GuiManager.removePlayer((Player) e.getEntity());
+		gui.onDeath((Player) e.getEntity());
 	}
 }

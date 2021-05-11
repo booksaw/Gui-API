@@ -8,6 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import com.booksaw.guiAPI.API.items.itemActions.GuiEvent;
 import com.booksaw.guiAPI.API.items.itemActions.ItemAction;
 
+import net.md_5.bungee.api.ChatColor;
+
 /**
  * Used to store items for the plugin
  * 
@@ -94,10 +96,19 @@ public class GuiItem implements Cloneable {
 	 * the other copy (so per player stuff can be done)
 	 */
 	@Override
-	public GuiItem clone() throws CloneNotSupportedException {
-		GuiItem item = (GuiItem) super.clone();
-		item.cloneInner();
-		return item;
+	public GuiItem clone() {
+		GuiItem item;
+		try {
+			item = (GuiItem) super.clone();
+
+			item.cloneInner();
+			return item;
+		} catch (CloneNotSupportedException e) {
+			System.err.println(ChatColor.RED
+					+ "COULD NOT CREATE CLONE OF THE GUIITEM, SO WILL RETURN DEFAULT (CAN HAVE PROBLEMS ON OTHER PLUGINS)");
+			e.printStackTrace();
+			return this;
+		}
 	}
 
 	/**

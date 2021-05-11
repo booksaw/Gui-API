@@ -1,9 +1,11 @@
 package com.booksaw.guiAPI.API;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
 import com.booksaw.guiAPI.APIMain;
 import com.booksaw.guiAPI.API.items.GuiItem;
-
-import net.md_5.bungee.api.ChatColor;
 
 /**
  * Used to select default items of this plugin (for quick forward and back
@@ -22,6 +24,10 @@ public enum DefaultItem {
 	 * Used to load these items from the config (no need to touch)
 	 */
 	private void loadItem() {
+		if(Bukkit.getVersion().contains("1.8.8")){
+			item = new GuiItem(new ItemStack(Material.STONE));
+			return; 
+		}
 		item = new GuiItem(APIMain.mainGuiAPI.getConfig().getItemStack("items."+ name()));
 	}
 	
@@ -40,13 +46,7 @@ public enum DefaultItem {
 	 * @return - The item
 	 */
 	public GuiItem getItem() {
-		try {
-			return item.clone();
-		} catch (CloneNotSupportedException e) {
-			System.err.println(ChatColor.RED + "COULD NOT CREATE CLONE OF DEFAULT ITEM, SO WILL RETURN DEFAULT (CAN HAVE PROBLEMS ON OTHER PLUGINS)");
-			e.printStackTrace();
-		}
-		return item; 
+		return item.clone();
 	}
 	
 }

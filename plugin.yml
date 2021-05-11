@@ -1,9 +1,9 @@
 main: com.booksaw.guiAPI.APIMain
 name: GuiAPI
 description: A plugn which aids developers in producing professional looking interactive GUIs
-version: 1.0
+version: 2.0
 author: booksaw
-api-version: 1.15
+api-version: 1.16
 
 commands:
   guiapi:

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.booksaw.guiAPI.GuiUseful;
 import com.booksaw.guiAPI.API.DefaultItem;
@@ -31,6 +33,7 @@ public abstract class PageLayout extends Gui {
 
 	List<GuiItem> contents;
 	protected GuiItem[] bottomBar = null;
+	private GuiItem foward, back;
 
 	@Override
 	protected final void layout(ItemCollection items) {
@@ -39,15 +42,9 @@ public abstract class PageLayout extends Gui {
 		contents = new ArrayList<>();
 		bottomBar = new GuiItem[9];
 
-		GuiItem back = DefaultItem.BACK.getItem();
-		back.addAction(new EventHandle());
-		back.setActionCommand("back");
-		bottomBar[3] = back;
+		foward = getForward();
+		back = getBack();
 
-		GuiItem foward = DefaultItem.FORWARD.getItem();
-		foward.addAction(new EventHandle());
-		foward.setActionCommand("forward");
-		bottomBar[5] = foward;
 		configureBottomBar(bottomBar);
 		addItems(contents);
 	}
@@ -58,7 +55,6 @@ public abstract class PageLayout extends Gui {
 		addItems(p, contents, details);
 		GuiItem[] bottomBar = this.bottomBar.clone();
 		configureBottomBar(p, bottomBar, details);
-
 		size = GuiUseful.getSize(contents.size());
 		if (size < 0 || size >= 54) {
 			size = 54;
@@ -66,6 +62,26 @@ public abstract class PageLayout extends Gui {
 			size += 9;
 		}
 		int contentSize = size - 9;
+		Integer pageInt = pages.get(p);
+
+		int page;
+		if (pageInt == null || pageInt < 0) {
+			page = 0;
+		} else {
+			page = pageInt;
+		}
+		if (page > 0) {
+			GuiItem back = this.back.clone();
+			back.addAction(new EventHandle(details));
+			back.setActionCommand("back");
+			bottomBar[3] = back;
+		}
+		if (contents.size() > (page + 1) * contentSize) {
+			GuiItem foward = this.foward.clone();
+			foward.addAction(new EventHandle(details));
+			foward.setActionCommand("forward");
+			bottomBar[5] = foward;
+		}
 
 		// adding the bottom bar
 		for (int i = 0; i < 9; i++) {
@@ -75,13 +91,6 @@ public abstract class PageLayout extends Gui {
 		}
 
 		// getting the page that the player is viewing
-		Integer pageInt = pages.get(p);
-		int page;
-		if (pageInt == null || pageInt < 0) {
-			page = 0;
-		} else {
-			page = pageInt;
-		}
 
 		// checking the page is not out of the bounds
 		if (page * contentSize > contents.size()) {
@@ -93,7 +102,6 @@ public abstract class PageLayout extends Gui {
 		for (int i = page * contentSize; i < (page + 1) * contentSize && i < contents.size(); i++) {
 			items.addItem(contents.get(i), i % contentSize);
 		}
-
 		pages.put(p, page);
 
 	}
@@ -141,12 +149,12 @@ public abstract class PageLayout extends Gui {
 	}
 
 	@Override
-	public void onClose(Player player) {
+	public void onClose(Player player, InventoryCloseEvent e) {
 		pages.remove(player);
 	}
 
 	@Override
-	public void onLeave(Player player) {
+	public void onLeave(Player player, PlayerQuitEvent e) {
 		pages.remove(player);
 	}
 
@@ -164,11 +172,17 @@ public abstract class PageLayout extends Gui {
 	 */
 	private class EventHandle implements ItemAction {
 
+		private final String[] details;
+
+		public EventHandle(String[] details) {
+			this.details = details;
+		}
+
 		@Override
 		public void onEvent(GuiEvent e) {
 			int page;
 			Integer pageInt;
-
+			e.e.setCancelled(true);
 			switch (e.getActionCommand()) {
 			case "forward":
 				// getting the page that the player is viewing
@@ -180,7 +194,7 @@ public abstract class PageLayout extends Gui {
 				}
 
 				pages.put((Player) e.getPlayer(), page);
-				displayGui((Player) e.getPlayer());
+				displayGui((Player) e.getPlayer(), details);
 				break;
 			case "back":
 				// getting the page that the player is viewing
@@ -193,11 +207,19 @@ public abstract class PageLayout extends Gui {
 				}
 
 				pages.put((Player) e.getPlayer(), page);
-				displayGui((Player) e.getPlayer());
+				displayGui((Player) e.getPlayer(), details);
 				break;
 			}
 
 		}
 
+	}
+
+	public GuiItem getBack() {
+		return DefaultItem.BACK.getItem();
+	}
+
+	public GuiItem getForward() {
+		return DefaultItem.FORWARD.getItem();
 	}
 }
