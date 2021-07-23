@@ -1,10 +1,7 @@
 package com.booksaw.guiAPI.API.items;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,9 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 
 public class ItemAPI {
 
@@ -88,28 +82,32 @@ public class ItemAPI {
 	 * @return That players skull (never returns null, in the case of failure will
 	 *         return alex head)
 	 */
-	public static ItemStack getSkull(String url) {
-
-		ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-		if (url.isEmpty())
-			return head;
-
-		SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
-		GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-
-		profile.getProperties().put("textures", new Property("textures", url));
-
-		try {
-			Method mtd = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
-			mtd.setAccessible(true);
-			mtd.invoke(skullMeta, profile);
-		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-			ex.printStackTrace();
-		}
-
-		head.setItemMeta(skullMeta);
-		return head;
-	}
+//	public static ItemStack getSkull(String url) {
+//
+//		ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+//		if (url.isEmpty())
+//			return head;
+//
+//		SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
+//		try {
+//            Object skullOwner = createNode(itemStack, "SkullOwner");
+//            setMeta(skullOwner, "Id", id.toString());
+//
+//            Object properties = createNode(skullOwner, "Properties");
+//
+//            Object listMeta = class_NBTTagList_constructor.newInstance();
+//            Object textureNode = class_NBTTagCompound_constructor.newInstance();
+//
+//            String textureJSON = "{textures:{SKIN:{url:\"" + url + "\"}}}";
+//            String encoded = Base64Coder.encodeString(textureJSON);
+//
+//            setMeta(textureNode, "Value", encoded);
+//            addToList(listMeta, textureNode);
+//            class_NBTTagCompound_setMethod.invoke(properties, "textures", listMeta);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//	}
 
 	/**
 	 * Used to replace placeholders when an item is loaded from a config These
