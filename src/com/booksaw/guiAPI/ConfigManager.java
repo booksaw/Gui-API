@@ -118,8 +118,8 @@ public class ConfigManager {
 					logger.info("[" + pluginName + "] - " + str);
 				}
 
-				logger.info("[" + pluginName + "]" + resourceName
-						+ " is now upated to the latest version, thank you for using BetterTeams");
+				logger.info("[" + pluginName + "] " + resourceName
+						+ " is now upated to the latest version, thank you for using " + pluginName);
 				logger.info("[" + pluginName + "] ==================================================================");
 
 			}

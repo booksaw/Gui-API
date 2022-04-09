@@ -3,6 +3,10 @@
  */
 package com.booksaw.guiAPI.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 
 /**
@@ -10,7 +14,7 @@ import org.bukkit.event.inventory.InventoryType;
  *
  *         Used to store all metadata about a GUI
  */
-public class GuiMetadata {
+public class GuiMetadata implements Cloneable {
 
 	/**
 	 * The name of the GUI
@@ -21,21 +25,24 @@ public class GuiMetadata {
 	 * The size of the GUI
 	 */
 	private int size;
-	
+
 	private InventoryType invType;
+
+	private List<GuiListener> listeners = new ArrayList<>();
 
 	/**
 	 * Used to create a new GuiMetadata with all metadata
 	 * 
-	 * @param guiName The name of the GUI 
-	 * @param size The size of the GUI
-	 * @param type The inventory type of the GUI
+	 * @param guiName The name of the GUI
+	 * @param size    The size of the GUI
+	 * @param type    The inventory type of the GUI
 	 */
 	public GuiMetadata(String guiName, int size, InventoryType type) {
 		this.guiName = guiName;
+		this.invType = type;
 		setSize(size);
 	}
-	
+
 	public GuiMetadata(String guiNane, int size) {
 		this(guiNane, size, InventoryType.CHEST);
 	}
@@ -48,9 +55,9 @@ public class GuiMetadata {
 	public GuiMetadata(String guiName) {
 		this(guiName, 9);
 	}
-	
+
 	/**
-	 * Used to create a new blank GuiMetadata 
+	 * Used to create a new blank GuiMetadata
 	 */
 	public GuiMetadata() {
 		this("");
@@ -89,7 +96,30 @@ public class GuiMetadata {
 	public void setInvType(InventoryType invType) {
 		this.invType = invType;
 	}
-	
-	
+
+	public GuiMetadata clone() throws CloneNotSupportedException {
+		GuiMetadata m = (GuiMetadata) super.clone();
+		m.cloned();
+		return m;
+	}
+
+	private void cloned() {
+		listeners = new ArrayList<>(listeners);
+	}
+
+	/**
+	 * Called when the player clicks outside of the inventory
+	 * 
+	 * @param e
+	 */
+	public void outside(InventoryClickEvent e) {
+		for (GuiListener listener : listeners) {
+			listener.outside(e);
+		}
+	}
+
+	public void addListener(GuiListener listener) {
+		listeners.add(listener);
+	}
 
 }

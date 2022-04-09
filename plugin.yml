@@ -1,0 +1,6 @@
+name: Gui-API 
+version: 1.0
+author: booksaw
+main: com.booksaw.guiAPI.GuiAPIMain
+description: API for creating GUIs
+api-version: 1.13

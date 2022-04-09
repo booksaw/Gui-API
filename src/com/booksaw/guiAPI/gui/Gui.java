@@ -1,5 +1,7 @@
 package com.booksaw.guiAPI.gui;
 
+import org.bukkit.entity.Player;
+
 import com.booksaw.guiAPI.gui.items.ItemCollection;
 
 /**
@@ -26,7 +28,7 @@ public class Gui {
 	public Gui() {
 		this(new GuiMetadata(), new ItemCollection());
 	}
-	
+
 	public Gui(String name) {
 		this(new GuiMetadata(name), new ItemCollection());
 	}
@@ -47,6 +49,24 @@ public class Gui {
 		this.defaultItems = defaultItems;
 	}
 
+	public PlayerGuiDisplay createPlayerInstance(Player player) {
+
+		PlayerGuiDisplay guiDisplay;
+		try {
+			guiDisplay = new PlayerGuiDisplay(this, defaultMetadata.clone(), defaultItems.clone(), player);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return guiDisplay;
+	}
 	
-	
+	/**
+	 * Used to add the cancel listener to this Gui
+	 */
+	public void addCancelListener() {
+		defaultMetadata.addListener(new CancelGuiListener());
+	}
+
 }
