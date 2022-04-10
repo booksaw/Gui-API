@@ -169,6 +169,15 @@ public class ItemCollection implements Cloneable {
 			}
 		}
 
+		if (emptyFillItem != null) {
+			for (int j = 0; j < i.getSize(); j++) {
+				if (!items.containsKey(j)) {
+					i.setItem(j, emptyFillItem.getItem());
+					items.put(j, emptyFillItem);
+				}
+			}
+		}
+
 		return i;
 	}
 
@@ -226,6 +235,25 @@ public class ItemCollection implements Cloneable {
 
 	public void setLocked(boolean lock) {
 		this.lock = lock;
+	}
+
+	private GuiItem emptyFillItem = null;
+
+	/**
+	 * Sets the item used to be placed in any empty slot
+	 * 
+	 * @param emptyFillItem The guiItem to fill blank spaces
+	 */
+	public void setEmptyFillItem(GuiItem emptyFillItem) {
+		verifyLock();
+		this.emptyFillItem = emptyFillItem;
+	}
+
+	/**
+	 * @return A clone of the empty fill item
+	 */
+	public GuiItem getEmptyFillItem() {
+		return emptyFillItem.clone();
 	}
 
 }
